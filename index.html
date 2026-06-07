@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- Developer: AKARSHANA -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="developer" content="AKARSHANA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Samura Xiter — Premium Gaming & Software Client Portal" />
+    <meta name="theme-color" content="#00FFFF" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Samura Xiter" />
+    <meta property="og:description" content="Premium Gaming & Software Client Portal" />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>Samura Xiter</title>
+
+    <!--
+      PERF: DNS prefetch + preconnect for Google Fonts infrastructure.
+      preconnect opens the TCP/TLS handshake early; dns-prefetch is a
+      cheaper fallback for browsers that don't support preconnect.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+    <!--
+      PERF: font-display=swap ensures text renders immediately with a
+      system fallback while the custom fonts download in the background.
+      Without swap, the browser hides text until fonts arrive (FOIT).
+      &display=swap appended to the URL activates this for all three families.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
+    />
+
+    <!--
+      PERF: Preload the two most critical font weights used above-the-fold
+      (Orbitron 700 for headings, Rajdhani 400 for body). The browser
+      starts fetching these before the stylesheet finishes parsing.
+      crossorigin is required for font preloads even on same-origin.
+    -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/orbitron/v31/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nysimBoWgz.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/rajdhani/v18/LDI2apCSOBg7S-QT7pasEcOsc-bGkqIw.woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
