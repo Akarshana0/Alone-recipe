@@ -73,7 +73,7 @@ export default function MealPlannerPage() {
   const shoppingList = useMemo(() => {
     const map = new Map<string, number>()
     DAYS.forEach(d => MEALS.forEach(m => { plan[d][m]?.ingredients.forEach(ing => map.set(ing, (map.get(ing) || 0) + 1)) }))
-    return [...map.entries()].sort(([a], [b]) => a.localeCompare(b))
+    return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b))
   }, [plan])
 
   const copyList = async () => {
