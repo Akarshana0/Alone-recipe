@@ -67,7 +67,7 @@ export default function HomePage() {
   const allTags = useMemo(() => {
     const map = new Map<string, number>()
     recipes.forEach(r => r.tags?.forEach(t => map.set(t, (map.get(t) || 0) + 1)))
-    return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([t]) => t)
+    return Array.from(map.entries()).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([t]) => t)
   }, [recipes])
 
   const filtered = useMemo(() => {
