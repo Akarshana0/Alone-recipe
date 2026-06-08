@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Recipes — anyone can read, only admin can write
+    match /recipes/{recipeId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null 
+        && request.auth.token.email == "pansiluakarshana0@gmail.com";
+    }
+
+    // Block everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

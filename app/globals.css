@@ -1,0 +1,263 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Custom properties ─────────────────────────────────────────── */
+:root {
+  --brand:        #f97316;
+  --brand-dim:    rgba(249,115,22,0.15);
+  --brand-glow:   rgba(249,115,22,0.35);
+  --glass-bg:     rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+  --surface:      rgba(255,255,255,0.04);
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(249,115,22,0.4), rgba(249,115,22,0.15));
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(249,115,22,0.6); }
+
+/* ── Selection ─────────────────────────────────────────────────── */
+::selection { background: rgba(249,115,22,0.35); color: #fff; }
+
+/* ── Smooth scroll ─────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+/* ── Focus ring reset ──────────────────────────────────────────── */
+*:focus { outline: none; }
+
+/* ── Autofill fix ──────────────────────────────────────────────── */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.05) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: white;
+}
+
+/* ── Shimmer keyframe ──────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Particle float ────────────────────────────────────────────── */
+@keyframes particleFloat {
+  0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 0.6; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* ── Text gradient animation ───────────────────────────────────── */
+@keyframes gradientText {
+  0%,100% { background-position: 0% center; }
+  50%     { background-position: 100% center; }
+}
+
+/* ── Reveal on scroll (used via JS IntersectionObserver) ───────── */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Glint sweep ───────────────────────────────────────────────── */
+@keyframes glintSweep {
+  0%   { left: -120%; }
+  100% { left: 120%; }
+}
+
+/* ── Pulse ring ────────────────────────────────────────────────── */
+@keyframes pulseRing {
+  0%   { transform: scale(1);    opacity: 0.8; }
+  100% { transform: scale(2.2);  opacity: 0; }
+}
+
+/* ── Indicator slide ───────────────────────────────────────────── */
+@keyframes indicatorSlide {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* ── Utility classes ───────────────────────────────────────────── */
+.reveal-up {
+  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #fdba74, #f97316, #fb923c, #fdba74);
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 5s ease infinite;
+}
+
+/* Glass card glint */
+.glass-glint {
+  position: relative;
+  overflow: hidden;
+}
+.glass-glint::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.06), transparent);
+  transform: skewX(-20deg);
+  transition: none;
+  pointer-events: none;
+}
+.glass-glint:hover::after {
+  animation: glintSweep 0.6s ease-out forwards;
+}
+
+/* Ingredient check animation */
+.ingredient-item {
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ingredient-item.checked {
+  opacity: 0.45;
+  text-decoration: line-through;
+  text-decoration-color: var(--brand);
+}
+
+/* Step reveal */
+.step-item {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.step-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Noise grain */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Magnetic card (applied via JS) */
+.card-magnetic {
+  transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s ease;
+}
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #fb923c, #f97316, #ea580c);
+  z-index: 9999;
+  transform-origin: left;
+  box-shadow: 0 0 8px rgba(249,115,22,0.6);
+  transition: width 0.1s linear;
+}
+
+/* Number counter */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Category pill active indicator */
+.cat-pill-active {
+  position: relative;
+}
+.cat-pill-active::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fb923c;
+  box-shadow: 0 0 6px rgba(249,115,22,0.8);
+}
+
+/* Hover underline */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #fb923c, #f97316);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hover-underline:hover::after { width: 100%; }
+
+/* ── Print styles ──────────────────────────────────────────────── */
+@media print {
+  body {
+    background: white !important;
+    color: #1a1a1a !important;
+  }
+  .grain-overlay,
+  #scroll-progress,
+  header,
+  footer,
+  .print\:hidden { display: none !important; }
+
+  main { padding-top: 0 !important; }
+
+  h1, h2, h3 { color: #1a1a1a !important; }
+  p, li, span { color: #333 !important; }
+}
+
+/* ── Difficulty badge colours (print-safe override) ───────────── */
+@media print {
+  [class*="text-emerald"] { color: #065f46 !important; }
+  [class*="text-amber"]   { color: #92400e !important; }
+  [class*="text-rose"]    { color: #9f1239 !important; }
+}
+
+/* ── Scroll Progress Bar ────────────────────────────────────────── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #f97316, #fb923c, #fdba74);
+  z-index: 9999;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(249,115,22,0.6);
+}
+
+/* ── Grain overlay ─────────────────────────────────────────────── */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Print styles ──────────────────────────────────────────────── */
+@media print {
+  .print\:hidden { display: none !important; }
+  body { background: white; color: black; }
+}
